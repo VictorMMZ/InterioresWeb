@@ -26,12 +26,64 @@
                 linear-gradient(150deg, var(--bg-1), var(--bg-2));
             min-height: 100vh;
             line-height: 1.5;
+            scroll-behavior: smooth;
         }
 
         .wrap {
             width: min(1380px, 97vw);
             margin: 0 auto;
             padding: 14px 0 34px;
+            position: relative;
+        }
+
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #b66a45, #2e5f57);
+            z-index: 200;
+            transition: width 0.12s linear;
+            box-shadow: 0 4px 10px rgba(46, 95, 87, 0.3);
+        }
+
+        .quick-nav {
+            position: fixed;
+            top: 18px;
+            right: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 10px;
+            border-radius: 14px;
+            border: 1px solid rgba(31, 31, 31, 0.14);
+            background: rgba(255, 255, 255, 0.68);
+            backdrop-filter: blur(8px);
+            z-index: 160;
+            box-shadow: 0 10px 25px rgba(31, 31, 31, 0.14);
+        }
+
+        .quick-nav-btn {
+            border: 1px solid rgba(31, 31, 31, 0.12);
+            border-radius: 999px;
+            padding: 7px 12px;
+            background: rgba(255, 255, 255, 0.86);
+            color: var(--ink);
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .quick-nav-btn:hover {
+            transform: translateX(-4px);
+            background: rgba(182, 106, 69, 0.18);
+            border-color: rgba(182, 106, 69, 0.5);
+        }
+
+        .quick-nav-btn.active {
+            background: var(--accent-2);
+            color: #fff;
+            border-color: transparent;
         }
 
         .hero {
@@ -42,6 +94,7 @@
             backdrop-filter: blur(5px);
             box-shadow: var(--shadow);
             animation: fadeDown 0.8s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .welcome {
@@ -52,17 +105,42 @@
             background: linear-gradient(130deg, rgba(255, 255, 255, 0.9), rgba(246, 241, 232, 0.85));
             box-shadow: var(--shadow);
             animation: fadeDown 0.7s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .welcome:hover,
+        .hero:hover,
+        .panorama-section:hover,
+        .price-section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 38px rgba(44, 28, 17, 0.2);
         }
 
         .welcome-layout {
             display: grid;
-            grid-template-columns: minmax(0, 1.45fr) minmax(180px, 0.65fr);
+            grid-template-columns: minmax(0, 1.3fr) auto minmax(180px, 0.65fr);
             gap: 18px;
             align-items: center;
         }
 
+        .welcome-middle-action {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-self: center;
+        }
+
+        .welcome-middle-action .btn {
+            margin-top: 0;
+            white-space: nowrap;
+        }
+
         .welcome-copy p + p {
             margin-top: 8px;
+        }
+
+        .welcome-copy {
+            text-align: center;
         }
 
         .welcome-logo-slot {
@@ -135,6 +213,7 @@
             line-height: 1.1;
             margin-bottom: 12px;
             font-weight: 400;
+            text-align: center;
         }
 
         .hero p {
@@ -152,6 +231,8 @@
 
         .intro-copy p {
             max-width: none;
+            text-align: center;
+            margin-inline: auto;
         }
 
         .intro-photo {
@@ -171,6 +252,7 @@
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
+            justify-content: center;
         }
 
         button {
@@ -217,6 +299,28 @@
             border-radius: 14px;
             text-align: center;
             font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::after {
+            content: "";
+            position: absolute;
+            inset: auto 10% 6px 10%;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.25s ease;
+        }
+
+        .filter-btn:hover::after {
+            transform: scaleX(1);
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
         }
 
         .filter-btn.active {
@@ -231,6 +335,7 @@
             align-items: baseline;
             justify-content: space-between;
             gap: 16px;
+            text-align: center;
         }
 
         .section-head h2 {
@@ -242,6 +347,16 @@
         .section-head p {
             color: var(--soft-ink);
             font-size: 0.96rem;
+        }
+
+        .tips,
+        .panorama-section,
+        .price-section {
+            text-align: center;
+        }
+
+        .plan-meta {
+            text-align: center;
         }
 
         .gallery {
@@ -258,6 +373,12 @@
             box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
+            transition: transform 0.28s ease, box-shadow 0.28s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 34px rgba(44, 28, 17, 0.22);
         }
 
         .photo-slot {
@@ -266,9 +387,15 @@
             border-bottom: 1px solid var(--line);
             object-fit: cover;
             display: block;
+            transition: transform 0.35s ease, filter 0.35s ease;
             background:
                 linear-gradient(120deg, rgba(182, 106, 69, 0.2), rgba(46, 95, 87, 0.2)),
                 repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.32) 0 12px, rgba(255, 255, 255, 0.52) 12px 24px);
+        }
+
+        .card:hover .photo-slot {
+            transform: scale(1.04);
+            filter: saturate(1.05);
         }
 
         .card-body {
@@ -322,14 +449,21 @@
 
         .panorama-photo {
             width: 100%;
-            aspect-ratio: 21 / 8;
+            aspect-ratio: 30/ 20;
             border-radius: 14px;
             border: 1px solid var(--line);
-            object-fit: cover;
+            object-fit: contain;
+             object-fit: cover;
             display: block;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
             background:
                 linear-gradient(120deg, rgba(182, 106, 69, 0.24), rgba(46, 95, 87, 0.2)),
                 repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.24) 0 14px, rgba(255, 255, 255, 0.5) 14px 28px);
+        }
+
+        .panorama-photo:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 14px 28px rgba(44, 28, 17, 0.2);
         }
 
 .price-section {
@@ -369,6 +503,12 @@
     border-radius: 12px;
     padding: 10px;
     background: rgba(249, 247, 243, 0.9);
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.plan-variant:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(44, 28, 17, 0.17);
 }
 
 .plan-meta h4 {
@@ -384,6 +524,24 @@
 .plan-price {
     color: #7f3f24;
     font-weight: 700;
+}
+
+.plan-photo {
+    margin-top: 8px;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border: 1px solid rgba(31, 31, 31, 0.2);
+    border-radius: 10px;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.3s ease;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(237, 230, 219, 0.84)),
+        repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.3) 0 14px, rgba(255, 255, 255, 0.58) 14px 28px);
+}
+
+.plan-variant:hover .plan-photo {
+    transform: scale(1.03);
 }
 
 .plan-canvas {
@@ -463,10 +621,12 @@
 
         .site-footer {
             margin-top: 20px;
-            border: 1px solid var(--line);
+            border: 1px solid rgba(255, 248, 243, 0.35);
+            border-top: 4px solid #f3c5a5;
             border-radius: 16px;
-            background: rgba(255, 255, 255, 0.82);
-            padding: 18px;
+            background: linear-gradient(135deg, #8b4c31, #6f3b26 55%, #4f2b1b);
+            box-shadow: 0 16px 34px rgba(67, 34, 20, 0.35);
+            padding: 22px;
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 14px;
@@ -474,16 +634,23 @@
 
         .site-footer h4 {
             font-family: "Great Vibes", cursive;
-            margin-bottom: 6px;
-            font-size: 1.05rem;
+            margin-bottom: 8px;
+            font-size: 1.7rem;
             font-weight: 400;
+            color: #fff2e8;
+            letter-spacing: 0.01em;
         }
 
         .site-footer p,
         .site-footer a {
-            color: var(--soft-ink);
+            color: #fff2e8;
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 1.12rem;
+            line-height: 1.5;
+        }
+
+        .site-footer a:hover {
+            color: #ffd8bd;
         }
 
         @keyframes fadeDown {
@@ -507,13 +674,33 @@
         }
 
         @media (max-width: 940px) {
+            .quick-nav {
+                top: auto;
+                right: 50%;
+                bottom: 12px;
+                transform: translateX(50%);
+                flex-direction: row;
+                gap: 6px;
+                padding: 8px;
+                overflow-x: auto;
+                max-width: calc(100vw - 20px);
+            }
+
+            .quick-nav-btn {
+                white-space: nowrap;
+            }
+
             .welcome-layout {
                 grid-template-columns: 1fr;
             }
 
+            .welcome-middle-action {
+                justify-content: center;
+            }
+
             .welcome-logo-slot {
                 width: min(130px, 100%);
-                justify-self: start;
+                justify-self: center;
             }
 
             .hero-top {
@@ -562,6 +749,15 @@
             .site-footer {
                 grid-template-columns: 1fr;
                 padding: 14px;
+            }
+
+            .site-footer h4 {
+                font-size: 1.5rem;
+            }
+
+            .site-footer p,
+            .site-footer a {
+                font-size: 1.02rem;
             }
 
             .price-section,
